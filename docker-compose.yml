@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  parser:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes: #volume to consume all zips from
+      - /Users/Nursultan/volumes/prod/zips:/app/zips
+    networks:
+      - backend
+
+  gpfdist:
+    build: gp/gpfdist
+    volumes:
+      - /Users/Nursultan/volumes/prod/czips:/app/czips
+    command: /usr/lib/gpdb/bin/gpfdist -d /app/czips/ -p 8888
+    networks:
+      - backend
+
+
+networks:
+  backend:  
